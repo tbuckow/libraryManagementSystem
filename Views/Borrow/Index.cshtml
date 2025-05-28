@@ -1,0 +1,44 @@
+@model IEnumerable<dynamic>
+
+<h2>Borrowing History</h2>
+<a class="btn btn-primary mb-3" asp-action="Lend">Lend a Book</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Lend Date</th>
+            <th>Return Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model != null)
+    {
+        foreach (var entry in Model)
+        {
+            var record = entry != null ? entry.Record : null;
+            var book = entry != null ? entry.Book : null;
+            var member = entry != null ? entry.Member : null;
+            var lendDate = record != null ? record.LendDate as DateTime? : null;
+            var returnDate = record != null ? record.ReturnDate as DateTime? : null;
+            var recordId = record != null ? record.Id : 0;
+            <tr>
+                <td>@(book != null ? book.Title : "Unknown")</td>
+                <td>@(member != null ? member.Name : "Unknown")</td>
+                <td>@(lendDate.HasValue ? lendDate.Value.ToShortDateString() : "-")</td>
+                <td>@(returnDate.HasValue ? returnDate.Value.ToShortDateString() : "-")</td>
+                <td>
+                    @if (record != null && !returnDate.HasValue)
+                    {
+                        <form asp-action="Return" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@recordId" />
+                            <button type="submit" class="btn btn-sm btn-success">Return</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

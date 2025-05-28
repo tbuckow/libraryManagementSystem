@@ -1,0 +1,35 @@
+@{
+    var books = ViewBag.Books as List<libraryManagementSystem.Models.Book>;
+    var members = ViewBag.Members as List<libraryManagementSystem.Models.Member>;
+}
+<h2>Lend a Book</h2>
+<form asp-action="Lend" method="post">
+    <div class="form-group">
+        <label for="bookId">Book</label>
+        <select name="bookId" class="form-control" required>
+            <option value="">-- Select Book --</option>
+            @if (books != null)
+            {
+                foreach (var book in books)
+                {
+                    <option value="@book.Id">@book.Title (@book.Author)</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="memberId">Member</label>
+        <select name="memberId" class="form-control" required>
+            <option value="">-- Select Member --</option>
+            @if (members != null)
+            {
+                foreach (var member in members)
+                {
+                    <option value="@member.Id">@member.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Lend</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>
