@@ -1,0 +1,23 @@
+@model IEnumerable<libraryManagementSystem.Models.Member>
+
+<h2>All Members</h2>
+<a class="btn btn-primary mb-3" asp-action="Add">Register new member</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Member ID</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var member in Model)
+    {
+        <tr>
+            <td>@member.Name</td>
+            <td>@member.Email</td>
+            <td>@member.Id</td>
+        </tr>
+    }
+    </tbody>
+</table>

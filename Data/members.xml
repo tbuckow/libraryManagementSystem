@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<members>
+  <member>
+    <id>1</id>
+    <name>Tanja Test</name>
+    <email>Tanja.Test@test.com</email>
+  </member>
+  <member>
+    <id>2</id>
+    <name>Max Muster</name>
+    <email>max.muster@test.com</email>
+  </member>
+</members>
