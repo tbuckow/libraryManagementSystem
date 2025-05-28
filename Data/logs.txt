@@ -1,0 +1,2 @@
+[2025-05-28 15:39:45] RETURN: Book 'Malbuch' (ID: 2) returned by Member 'Tanja Test' (ID: 1)
+[2025-05-28 15:39:54] LEND: Book 'Malbuch' (ID: 2) lent to Member 'Tanja Test' (ID: 1)

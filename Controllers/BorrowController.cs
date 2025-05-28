@@ -13,6 +13,7 @@ namespace libraryManagementSystem.Controllers
         private readonly string _booksPath = "Data/books.json";
         private readonly string _membersPath = "Data/members.xml";
         private readonly string _borrowPath = "Data/borrow.sql";
+        private readonly string _logsPath = "Data/logs.txt";
 
         private List<Book> LoadBooks()
         {
@@ -69,6 +70,12 @@ namespace libraryManagementSystem.Controllers
             System.IO.File.WriteAllLines(_borrowPath, lines);
         }
 
+        private void LogAction(string message)
+        {
+            var logLine = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
+            System.IO.File.AppendAllText(_logsPath, logLine + System.Environment.NewLine);
+        }
+
         public IActionResult Index()
         {
             var records = LoadBorrowRecords();
@@ -105,6 +112,8 @@ namespace libraryManagementSystem.Controllers
                 ViewBag.Members = LoadMembers();
                 return View();
             }
+            var members = LoadMembers();
+            var member = members.FirstOrDefault(m => m.Id == memberId);
             var records = LoadBorrowRecords();
             var newRecord = new BorrowRecord
             {
@@ -118,6 +127,10 @@ namespace libraryManagementSystem.Controllers
             SaveBorrowRecords(records);
             book.IsAvailable = false;
             SaveBooks(books);
+            if (book != null && member != null)
+            {
+                LogAction($"LEND: Book '{book.Title}' (ID: {book.Id}) lent to Member '{member.Name}' (ID: {member.Id})");
+            }
             return RedirectToAction("Index");
         }
 
@@ -132,10 +145,16 @@ namespace libraryManagementSystem.Controllers
                 SaveBorrowRecords(records);
                 var books = LoadBooks();
                 var book = books.FirstOrDefault(b => b.Id == record.BookId);
+                var members = LoadMembers();
+                var member = members.FirstOrDefault(m => m.Id == record.MemberId);
                 if (book != null)
                 {
                     book.IsAvailable = true;
                     SaveBooks(books);
+                }
+                if (book != null && member != null)
+                {
+                    LogAction($"RETURN: Book '{book.Title}' (ID: {book.Id}) returned by Member '{member.Name}' (ID: {member.Id})");
                 }
             }
             return RedirectToAction("Index");
