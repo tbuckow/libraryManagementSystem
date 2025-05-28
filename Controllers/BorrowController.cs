@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using libraryManagementSystem.Models;
+using libraryManagementSystem.Data; // Add this using
 using System.Text.Json;
 using System.Xml.Linq;
 using System.Collections.Generic;
@@ -17,12 +18,7 @@ namespace libraryManagementSystem.Controllers
 
         private List<Book> LoadBooks()
         {
-            if (!System.IO.File.Exists(_booksPath))
-                return new List<Book>();
-            var json = System.IO.File.ReadAllText(_booksPath);
-            if (string.IsNullOrWhiteSpace(json))
-                return new List<Book>();
-            return JsonSerializer.Deserialize<List<Book>>(json) ?? new List<Book>();
+            return DataSeeder.LoadBooksFromJson(_booksPath);
         }
 
         private void SaveBooks(List<Book> books)
@@ -33,35 +29,12 @@ namespace libraryManagementSystem.Controllers
 
         private List<Member> LoadMembers()
         {
-            if (!System.IO.File.Exists(_membersPath))
-                return new List<Member>();
-            var xml = XDocument.Load(_membersPath);
-            return xml.Root == null ? new List<Member>() :
-                xml.Root.Elements("member").Select(x => new Member
-                {
-                    Id = (int?)x.Element("id") ?? 0,
-                    Name = (string?)x.Element("name") ?? string.Empty,
-                    Email = (string?)x.Element("email") ?? string.Empty
-                }).ToList();
+            return DataSeeder.LoadMembersFromXml(_membersPath);
         }
 
         private List<BorrowRecord> LoadBorrowRecords()
         {
-            if (!System.IO.File.Exists(_borrowPath))
-                return new List<BorrowRecord>();
-            var lines = System.IO.File.ReadAllLines(_borrowPath);
-            return lines.Select(line =>
-            {
-                var parts = line.Split(';');
-                return new BorrowRecord
-                {
-                    Id = int.Parse(parts[0]),
-                    BookId = int.Parse(parts[1]),
-                    MemberId = int.Parse(parts[2]),
-                    LendDate = DateTime.Parse(parts[3]),
-                    ReturnDate = string.IsNullOrWhiteSpace(parts[4]) ? null : DateTime.Parse(parts[4])
-                };
-            }).ToList();
+            return DataSeeder.LoadBorrowRecordsFromSql(_borrowPath);
         }
 
         private void SaveBorrowRecords(List<BorrowRecord> records)

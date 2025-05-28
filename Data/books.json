@@ -14,5 +14,13 @@
     "ISBN": "123456",
     "Genre": "Kinder",
     "IsAvailable": false
+  },
+  {
+    "Id": 3,
+    "Title": "Romance",
+    "Author": "Dieter",
+    "ISBN": "8903247",
+    "Genre": "Romance",
+    "IsAvailable": false
   }
 ]

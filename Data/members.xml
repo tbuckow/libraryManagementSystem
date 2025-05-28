@@ -10,4 +10,9 @@
     <name>Max Muster</name>
     <email>max.muster@test.com</email>
   </member>
+  <member>
+    <id>3</id>
+    <name>Vici</name>
+    <email>vici@test.at</email>
+  </member>
 </members>

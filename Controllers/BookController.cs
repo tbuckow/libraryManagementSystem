@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using libraryManagementSystem.Models;
+using libraryManagementSystem.Data; // Add this using
 using System.Text.Json;
 using System.IO;
 using System.Collections.Generic;
@@ -13,12 +14,7 @@ namespace libraryManagementSystem.Controllers
 
         private List<Book> LoadBooks()
         {
-            if (!System.IO.File.Exists(_jsonPath))
-                return new List<Book>();
-            var json = System.IO.File.ReadAllText(_jsonPath);
-            if (string.IsNullOrWhiteSpace(json))
-                return new List<Book>();
-            return JsonSerializer.Deserialize<List<Book>>(json) ?? new List<Book>();
+            return DataSeeder.LoadBooksFromJson(_jsonPath);
         }
 
         private void SaveBooks(List<Book> books)

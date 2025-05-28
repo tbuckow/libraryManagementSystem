@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using libraryManagementSystem.Models;
+using libraryManagementSystem.Data; // Add this using
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,16 +14,7 @@ namespace libraryManagementSystem.Controllers
 
         private List<Member> LoadMembers()
         {
-            if (!System.IO.File.Exists(_xmlPath))
-                return new List<Member>();
-            var xml = XDocument.Load(_xmlPath);
-            return xml.Root == null ? new List<Member>() :
-                xml.Root.Elements("member").Select(x => new Member
-                {
-                    Id = (int?)x.Element("id") ?? 0,
-                    Name = (string?)x.Element("name") ?? string.Empty,
-                    Email = (string?)x.Element("email") ?? string.Empty
-                }).ToList();
+            return DataSeeder.LoadMembersFromXml(_xmlPath);
         }
 
         private void SaveMembers(List<Member> members)
