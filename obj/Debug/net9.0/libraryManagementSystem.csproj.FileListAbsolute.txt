@@ -219,3 +219,5 @@ C:\Users\tbuczkow\source\repos\libraryManagementSystem\obj\Debug\net9.0\refint\l
 C:\Users\tbuczkow\source\repos\libraryManagementSystem\obj\Debug\net9.0\libraryManagementSystem.pdb
 C:\Users\tbuczkow\source\repos\libraryManagementSystem\obj\Debug\net9.0\libraryManagementSystem.genruntimeconfig.cache
 C:\Users\tbuczkow\source\repos\libraryManagementSystem\obj\Debug\net9.0\ref\libraryManagementSystem.dll
+C:\Users\tbuczkow\source\repos\libraryManagementSystem\bin\Debug\net9.0\Data\books.json
+C:\Users\tbuczkow\source\repos\libraryManagementSystem\obj\Debug\net9.0\libraryManagementSystem.sourcelink.json
