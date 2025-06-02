@@ -41,6 +41,12 @@ This application allows you to manage books, members, and lending operations for
 - "Implement logging for all lend and return actions to logs.txt."
 - "Write modular xUnit test classes for BookService, MemberService, BorrowService, DataSeeder, and integration tests."
 - "Update .csproj to copy Data/ files to output directory for tests."
+- "Refactor controllers to use DataSeeder for all data loading from JSON, XML, and SQL files."
+- "Fix CS8602 warnings by adding Assert.NotNull before dereferencing possibly null objects in tests."
+- "Write a README.md in English with project overview, installation, screenshots, Copilot prompts, and development challenges."
+- "Add runtime logging for all lending/return actions and ensure logs are written to Data/logs.txt."
+- "Ensure all test data files are copied to the output directory for reliable automated testing."
+- "Implement in-memory service classes for modular and isolated unit testing."
 
 ## Development Challenges
 - **Null Reference Handling**: Ensuring all dynamic view models and data loading logic are robust against missing or inconsistent data.
