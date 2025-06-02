@@ -10,6 +10,14 @@ This application allows you to manage books, members, and lending operations for
 - **Data Storage**: Books (JSON), Members (XML), Borrow Records (flat file)
 - **Logging**: All lending/return actions are logged to `Data/logs.txt`
 
+## Architecture & Best Practices
+- **Clean Architecture**: Controllers and services are modular, testable, and follow separation of concerns.
+- **Dependency Injection**: All services are injected and configured in `Program.cs` for maintainability and testability.
+- **Async/Await**: All I/O operations (file/database access) use async/await for scalability and responsiveness.
+- **Robust Null Handling**: All code and views include null checks to prevent runtime errors.
+- **English UI & Comments**: All user interface text and code comments are in English.
+- **Copilot Custom Instructions**: See [.githubcopilotinstructions.md](.githubcopilotinstructions.md) for project-specific Copilot guidance (C# 10, clean architecture, DI, async/await, English comments).
+
 ## Installation Guide
 1. **Install .NET 9 SDK** (or the version specified in `libraryManagementSystem.csproj`)
 2. **Clone the repository**
@@ -35,13 +43,22 @@ This application allows you to manage books, members, and lending operations for
 - ![Members List](Screenshots/MembersList.png)
 - ![Register Member](Screenshots/RegisterMember.png)
 
+## Testing
+- **xUnit Modular Tests**: All services and integration logic are covered by modular xUnit tests in the `Tests/` folder.
+- **Test Data Isolation**: Each test uses its own test data files and ensures the test data directory exists.
+- **Sequential Execution**: Tests are marked with `[Collection("Sequential")]` to avoid file access conflicts.
+- **Run all tests**:
+   ```powershell
+   dotnet test
+   ```
+
 ## Example GitHub Copilot Prompts Used
 - "Build a web-based library management system using ASP.NET Core MVC and Entity Framework Core with SQLite."
+- "Refactor controllers and services to use dependency injection and async/await."
 - "Add robust null checks or strongly-typed view models to Borrow/Index.cshtml to prevent runtime errors."
 - "Implement logging for all lend and return actions to logs.txt."
 - "Write modular xUnit test classes for BookService, MemberService, BorrowService, DataSeeder, and integration tests."
 - "Update .csproj to copy Data/ files to output directory for tests."
-- "Refactor controllers to use DataSeeder for all data loading from JSON, XML, and SQL files."
 - "Fix CS8602 warnings by adding Assert.NotNull before dereferencing possibly null objects in tests."
 - "Write a README.md in English with project overview, installation, screenshots, Copilot prompts, and development challenges."
 - "Add runtime logging for all lending/return actions and ensure logs are written to Data/logs.txt."
@@ -54,6 +71,8 @@ This application allows you to manage books, members, and lending operations for
 - **Test Data Availability**: Ensuring test data files are always available in the test output directory for reliable automated testing.
 - **Integration of Logging**: Implementing runtime logging for all lending/return actions in a way that is robust and does not impact performance.
 - **Localization**: Ensuring the UI is consistently in English and navigation is user-friendly.
+- **Async/Await Refactoring**: Migrating all I/O and controller logic to async/await for scalability.
+- **Dependency Injection**: Refactoring all services and controllers to use DI for maintainability and testability.
 
 ---
 

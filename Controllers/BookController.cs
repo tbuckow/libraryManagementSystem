@@ -1,31 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using libraryManagementSystem.Models;
-using libraryManagementSystem.Data; // Add this using
-using System.Text.Json;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+using libraryManagementSystem.Services;
+using System.Threading.Tasks;
 
 namespace libraryManagementSystem.Controllers
 {
+    /// <summary>
+    /// Controller for book management. Uses BookService via dependency injection.
+    /// </summary>
     public class BookController : Controller
     {
-        private readonly string _jsonPath = "Data/books.json";
+        private readonly BookService _bookService;
 
-        private List<Book> LoadBooks()
+        // BookService is injected via constructor
+        public BookController(BookService bookService)
         {
-            return DataSeeder.LoadBooksFromJson(_jsonPath);
+            _bookService = bookService;
         }
 
-        private void SaveBooks(List<Book> books)
+        /// <summary>
+        /// Displays all books, optionally filtered by search string.
+        /// </summary>
+        public async Task<IActionResult> Index(string? search)
         {
-            var json = JsonSerializer.Serialize(books, new JsonSerializerOptions { WriteIndented = true });
-            System.IO.File.WriteAllText(_jsonPath, json);
-        }
-
-        public IActionResult Index(string? search)
-        {
-            var books = LoadBooks();
+            var books = await _bookService.GetBooksAsync();
             if (!string.IsNullOrWhiteSpace(search))
             {
                 var lower = search.ToLower();
@@ -42,13 +40,9 @@ namespace libraryManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Book book)
+        public async Task<IActionResult> Add(Book book)
         {
-            var books = LoadBooks();
-            book.Id = books.Count > 0 ? books.Max(b => b.Id) + 1 : 1;
-            book.IsAvailable = true;
-            books.Add(book);
-            SaveBooks(books);
+            await _bookService.AddBookAsync(book);
             return RedirectToAction("Index");
         }
     }
